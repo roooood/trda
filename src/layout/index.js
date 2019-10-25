@@ -55,6 +55,7 @@ const styles = {
         flexGrow: 1,
         height: '100vh',
         overflow: 'auto',
+        paddingTop: 20
     },
     container: {
         paddingTop: theme.spacing(4),

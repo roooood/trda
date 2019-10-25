@@ -1,8 +1,11 @@
 import React from 'react';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-class Route extends React.Component {
+import UserManage from '../route/user/UserManage';
+
+class MyRouter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -11,9 +14,12 @@ class Route extends React.Component {
     }
     render() {
         return (
-            null
+            <Router>
+                {/* <Route path="/" exact component={Home} /> */}
+                <Route path="/user/manage" component={UserManage} />
+            </Router>
         );
     }
 }
 
-export default connect(state => state)(Route);
+export default connect(state => state)(MyRouter);

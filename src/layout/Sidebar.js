@@ -80,11 +80,12 @@ class Sidebar extends React.Component {
     return (
       <Drawer
         variant="permanent"
+        style={this.context.state.menuState ? styles.drawerPaperClose : styles.drawerPaper}
         open={this.context.state.menuState}
       >
         <div style={styles.toolbarIcon}>
         </div>
-        <List style={this.context.state.menuState ? styles.drawerPaperClose : styles.drawerPaper}>
+        <List style={{ width: !this.context.state.menuState ? drawerWidth : drawerMinWidth }}>
           {this.loadMain()}
         </List>
       </Drawer>
@@ -93,13 +94,14 @@ class Sidebar extends React.Component {
 }
 
 const drawerWidth = 240;
+const drawerMinWidth = 72;
 let theme = createMuiTheme()
 const styles = {
   toolbarIcon: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    margin: 2,
+    margin: 4,
     ...theme.mixins.toolbar,
   },
   drawerPaper: {

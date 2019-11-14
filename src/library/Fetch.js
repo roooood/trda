@@ -36,7 +36,7 @@ function Http(page, data = {}, callBack) {
       })
       .catch((error) => {
         checkErr(error);
-        callBack({success:false});
+        callBack({ success: false });
       });
 
   }

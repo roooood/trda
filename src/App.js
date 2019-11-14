@@ -1,6 +1,6 @@
 import React from 'react';
 import autoBind from 'react-autobind';
-
+import './assets/css/app.css'
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./redux/store";

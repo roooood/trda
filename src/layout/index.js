@@ -8,12 +8,13 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 
 
-import Context from '../library/Context';
+import Context from 'library/Context';
 import Themes from "./themes";
-import Route from './Route';
+import Routes from './Route';
 import Sidebar from './Sidebar';
 import Appbar from './Appbar';
 import Footer from './Footer';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 class index extends React.Component {
     static contextType = Context;
@@ -25,20 +26,20 @@ class index extends React.Component {
     render() {
         return (
             <ThemeProvider theme={Themes.default}>
-                <div style={styles.root}>
-                    <CssBaseline />
-                    <Appbar />
-                    <Sidebar />
-                    <main style={styles.content}>
-                        <div style={styles.appBarSpacer} />
-                        <Container maxWidth="lg" style={styles.container}>
-                            <Grid container spacing={3}>
-                                <Route />
-                            </Grid>
-                        </Container>
-                        <Footer />
-                    </main>
-                </div>
+                <Router>
+                    <div style={styles.root}>
+                        <CssBaseline />
+                        <Appbar />
+                        <Sidebar />
+                        <main style={styles.content}>
+                            <div style={styles.appBarSpacer} />
+                            <Container maxWidth="lg" style={styles.container}>
+                                <Routes />
+                            </Container>
+                            <Footer />
+                        </main>
+                    </div>
+                </Router>
             </ThemeProvider>
         );
     }
@@ -55,9 +56,10 @@ const styles = {
         flexGrow: 1,
         height: '100vh',
         overflow: 'auto',
-        paddingTop: 20
+        paddingTop: 50
     },
     container: {
+        padding: theme.spacing(2),
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4),
     },

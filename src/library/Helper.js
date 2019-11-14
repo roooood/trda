@@ -1,22 +1,22 @@
 
-export function getOffset(el) {
-    const rect = el.getBoundingClientRect();
-    return {
-        left: rect.left + window.scrollX,
-        top: rect.top + window.scrollY
-    };
+export function timing(timestamp) {
+    var a = new Date(timestamp);
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var month = months[a.getMonth()];
+    var date = a.getDate();
+    var hour = a.getHours();
+    var min = a.getMinutes();
+    return (date + ' ' + month) + ' ' + (("" + hour).length == 1 ? '0' + hour : hour) + ':' + (("" + min).length == 1 ? '0' + min : min);
 }
 
-export function getQuery(variable) {
-    var query = window.location.search.substring(1);
-    var vars = query.split('&');
-    for (var i = 0; i < vars.length; i++) {
-        var pair = vars[i].split('=');
-        if (decodeURIComponent(pair[0]) == variable) {
-            return decodeURIComponent(pair[1]);
+export function diff(obj1, obj2) {
+    let ret = {};
+    for (let i in obj1) {
+        if (obj1[i] != obj2[i]) {
+            ret[i] = obj1[i];
         }
     }
-    return false;
+    return ret;
 }
 export function clone(arr) {
     let newObj = (arr instanceof Array) ? [] : {};

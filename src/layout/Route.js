@@ -1,9 +1,11 @@
 import React from 'react';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
-import UserManage from '../route/user/UserManage';
+import Dashboard from 'route/dashboard/Dashboard';
+import UserManage from 'route/user/UserManage';
+import MarketManage from 'route/market/MarketManage';
 
 class MyRouter extends React.Component {
     constructor(props) {
@@ -14,10 +16,11 @@ class MyRouter extends React.Component {
     }
     render() {
         return (
-            <Router>
-                {/* <Route path="/" exact component={Home} /> */}
+            <Switch>
+                <Route path="/" exact component={Dashboard} />
                 <Route path="/user/manage" component={UserManage} />
-            </Router>
+                <Route path="/market/manage" component={MarketManage} />
+            </Switch>
         );
     }
 }

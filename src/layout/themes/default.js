@@ -122,10 +122,10 @@ export default {
         borderBottom: "1px solid rgba(224, 224, 224, .5)",
       },
       head: {
-        fontSize: "0.95rem",
+        fontSize: "0.90rem",
       },
       body: {
-        fontSize: "0.95rem",
+        fontSize: "0.80rem",
       },
     },
   },

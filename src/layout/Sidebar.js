@@ -1,6 +1,7 @@
 import React from 'react';
 import autoBind from 'react-autobind';
-import Context from '../library/Context';
+import { Link } from "react-router-dom";
+import Context from 'library/Context';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -11,20 +12,60 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-
-import { t } from '../locales';
+import { t } from 'locales';
 import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
 import PeopleAltRoundedIcon from '@material-ui/icons/PeopleAltRounded';
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
+
 
 
 const ListItems = [
   {
     text: t('users'),
     icon: PersonRoundedIcon,
+    link: '/'
+  },
+  {
+    text: t('users'),
+    icon: PersonRoundedIcon,
     sub: [
       {
         text: t('usersManage'),
-        icon: PeopleAltRoundedIcon
+        icon: PeopleAltRoundedIcon,
+        link: '/user/manage'
+      }
+    ]
+  },
+  {
+    text: t('market'),
+    icon: PersonRoundedIcon,
+    sub: [
+      {
+        text: t('marketManage'),
+        icon: ShoppingBasketIcon,
+        link: '/market/manage'
+      }
+    ]
+  },
+  {
+    text: t('trade'),
+    icon: PersonRoundedIcon,
+    sub: [
+      {
+        text: t('orderManage'),
+        icon: ShoppingBasketIcon,
+        link: '/order/manage'
+      }
+    ]
+  },
+  {
+    text: t('token'),
+    icon: PersonRoundedIcon,
+    sub: [
+      {
+        text: t('tokenManage'),
+        icon: ShoppingBasketIcon,
+        link: '/token/manage'
       }
     ]
   },
@@ -60,12 +101,14 @@ class Sidebar extends React.Component {
                 {
                   item.sub.map((subItem, j) => {
                     return (
-                      <ListItem style={styles.subItem} key={i + '' + j} button>
-                        <ListItemIcon>
-                          <subItem.icon />
-                        </ListItemIcon>
-                        <ListItemText primary={subItem.text} />
-                      </ListItem>
+                      <Link to={subItem.link} key={i + '' + j}>
+                        <ListItem style={styles.subItem} button>
+                          <ListItemIcon>
+                            <subItem.icon />
+                          </ListItemIcon>
+                          <ListItemText primary={subItem.text} />
+                        </ListItem>
+                      </Link>
                     )
                   })
                 }
@@ -130,6 +173,8 @@ const styles = {
   },
   subItem: {
     borderRadius: 5,
+    color: 'rgba(0, 0, 0, 0.54)',
+    testDecoration: 'none'
   }
 }
 

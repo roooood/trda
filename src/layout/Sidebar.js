@@ -13,62 +13,89 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import { t } from 'locales';
-import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
+
 import PeopleAltRoundedIcon from '@material-ui/icons/PeopleAltRounded';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
+import SettingsIcon from '@material-ui/icons/Settings';
+import DashboardRoundedIcon from '@material-ui/icons/DashboardRounded';
+import TrendingUpRoundedIcon from '@material-ui/icons/TrendingUpRounded';
+import ListRoundedIcon from '@material-ui/icons/ListRounded';
+import ChatIcon from '@material-ui/icons/ChatBubbleOutline';
+import VideocamIcon from '@material-ui/icons/OndemandVideo';
 
 
 
 const ListItems = [
   {
-    text: t('users'),
-    icon: PersonRoundedIcon,
+    text: t('Dashboard'),
+    icon: DashboardRoundedIcon,
     link: '/'
   },
   {
-    text: t('users'),
-    icon: PersonRoundedIcon,
+    text: t('Users'),
+    icon: PeopleAltRoundedIcon,
     sub: [
       {
         text: t('usersManage'),
-        icon: PeopleAltRoundedIcon,
+        icon: SettingsIcon,
         link: '/user/manage'
       }
     ]
   },
   {
-    text: t('market'),
-    icon: PersonRoundedIcon,
+    text: t('Market'),
+    icon: ShoppingBasketIcon,
     sub: [
       {
         text: t('marketManage'),
-        icon: ShoppingBasketIcon,
+        icon: SettingsIcon,
         link: '/market/manage'
       }
     ]
   },
   {
-    text: t('trade'),
-    icon: PersonRoundedIcon,
+    text: t('Orders'),
+    icon: TrendingUpRoundedIcon,
     sub: [
       {
         text: t('orderManage'),
-        icon: ShoppingBasketIcon,
+        icon: SettingsIcon,
         link: '/order/manage'
       }
     ]
   },
   {
-    text: t('token'),
-    icon: PersonRoundedIcon,
+    text: t('Token'),
+    icon: ListRoundedIcon,
     sub: [
       {
         text: t('tokenManage'),
-        icon: ShoppingBasketIcon,
+        icon: SettingsIcon,
         link: '/token/manage'
       }
     ]
   },
+  {
+    text: t('Video'),
+    icon: VideocamIcon,
+    sub: [
+      {
+        text: t('videoManage'),
+        icon: SettingsIcon,
+        link: '/video/manage'
+      }
+    ]
+  },
+  {
+    text: t('Setting'),
+    icon: SettingsIcon,
+    link: '/setting'
+  },
+  {
+    text: t('Messages'),
+    icon: ChatIcon,
+    link: '/support'
+  }
 ]
 
 class Sidebar extends React.Component {
@@ -81,6 +108,9 @@ class Sidebar extends React.Component {
     autoBind(this);
   }
   handleClick(i) {
+    for (let i in this.state.open) {
+      this.state.open[i] = false;
+    }
     this.setState(state => (state.open[i] = !(state.open[i] || false), state))
   }
   loadMain() {
@@ -88,13 +118,25 @@ class Sidebar extends React.Component {
       ListItems.map((item, i) => {
         return (
           <>
-            <ListItem key={i} button onClick={() => this.handleClick(i)}>
-              <ListItemIcon>
-                {(this.context.state.menuState && this.state.open[i]) ? <ExpandMore /> : <item.icon />}
-              </ListItemIcon>
-              <ListItemText primary={item.text} />
-              {('sub' in item) ? this.state.open[i] ? <ExpandLess /> : <ExpandMore /> : null}
-            </ListItem>
+            {('link' in item)
+              ? <>
+                <Link to={item.link} key={i}>
+                  <ListItem button onClick={() => this.handleClick(i)}>
+                    <ListItemIcon>
+                      {(this.context.state.menuState && this.state.open[i]) ? <ExpandMore /> : <item.icon />}
+                    </ListItemIcon>
+                    <ListItemText primary={item.text} style={styles.subItem} />
+                  </ListItem>
+                </Link>
+              </>
+              : <ListItem button onClick={() => this.handleClick(i)} >
+                <ListItemIcon>
+                  {(this.context.state.menuState && this.state.open[i]) ? <ExpandMore /> : <item.icon />}
+                </ListItemIcon>
+                <ListItemText primary={item.text} />
+                {('sub' in item) ? this.state.open[i] ? <ExpandLess /> : <ExpandMore /> : null}
+              </ListItem>
+            }
             {
               ('sub' in item) &&
               <Collapse style={!this.context.state.menuState ? styles.subs : {}} in={this.state.open[i]} timeout="auto" unmountOnExit>
@@ -128,7 +170,7 @@ class Sidebar extends React.Component {
       >
         <div style={styles.toolbarIcon}>
         </div>
-        <List style={{ width: !this.context.state.menuState ? drawerWidth : drawerMinWidth }}>
+        <List style={{ width: !this.context.state.menuState ? drawerWidth : drawerMinWidth, overflow: 'hidden' }}>
           {this.loadMain()}
         </List>
       </Drawer>
@@ -136,8 +178,8 @@ class Sidebar extends React.Component {
   }
 }
 
-const drawerWidth = 240;
-const drawerMinWidth = 72;
+const drawerWidth = 220;
+const drawerMinWidth = 55;
 let theme = createMuiTheme()
 const styles = {
   toolbarIcon: {

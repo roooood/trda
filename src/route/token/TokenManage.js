@@ -24,18 +24,15 @@ class Screen extends React.Component {
             <Grid item xs={12}>
                 <Paper style={styles.root}>
                     <MaterialTable
-                        title={t('Markets')}
+                        title={t('Tokens')}
                         columns={[
-                            { title: t('type'), field: 'type', lookup: { crypto: 'crypto', forex: 'forex', stocks: 'stocks' } },
-                            { title: t('symbol'), field: 'symbol' },
-                            { title: t('display'), field: 'display' },
-                            { title: t('description'), field: 'description' },
+                            { title: t('token'), field: 'token' },
 
                         ]}
                         data={query =>
                             new Promise((resolve, reject) => {
                                 Fetch('manage/list', {
-                                    type: 'market',
+                                    type: 'tokens',
                                     page: (query.page + 1),
                                     perPage: query.pageSize
                                 }, (result) => {
@@ -51,7 +48,7 @@ class Screen extends React.Component {
                             onRowAdd: newData =>
                                 new Promise((resolve, reject) => {
                                     Fetch('manage/add', {
-                                        type: 'market',
+                                        type: 'tokens',
                                         data: JSON.stringify(newData)
                                     }, (result) => {
                                         resolve();
@@ -62,7 +59,7 @@ class Screen extends React.Component {
                                     let data = diff(newData, oldData);
                                     if (Object.keys(data).length > 0) {
                                         Fetch('manage/update', {
-                                            type: 'market',
+                                            type: 'tokens',
                                             id: oldData.id,
                                             data: JSON.stringify(data)
                                         }, (result) => {
@@ -76,7 +73,7 @@ class Screen extends React.Component {
                             onRowDelete: oldData =>
                                 new Promise(resolve => {
                                     Fetch('manage/delete', {
-                                        type: 'market',
+                                        type: 'tokens',
                                         id: oldData.id,
                                     }, (result) => {
                                         resolve();

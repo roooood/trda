@@ -6,4 +6,6 @@ export default {
     orderManage: 'Order Markets',
     realBalance: 'Real balanc',
     practiceBalance: 'Practice',
+    openOrders: 'Open Orders',
+    videoManage: 'Video Manage',
 }

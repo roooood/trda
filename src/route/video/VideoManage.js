@@ -10,32 +10,34 @@ import MaterialTable from 'material-table'
 import CheckIcon from '@material-ui/icons/Check';
 import BlockIcon from '@material-ui/icons/Block';
 import Switch from '@material-ui/core/Switch';
+import Context from 'library/Context';
 
 
 class Screen extends React.Component {
+    static contextType = Context;
     constructor(props) {
         super(props);
         this.state = {
         };
         autoBind(this);
     }
+
     render() {
         return (
             <Grid item xs={12}>
                 <Paper style={styles.root}>
                     <MaterialTable
-                        title={t('Markets')}
+                        title={t('Videos')}
                         columns={[
-                            { title: t('type'), field: 'type', lookup: { crypto: 'crypto', forex: 'forex', stocks: 'stocks' } },
-                            { title: t('symbol'), field: 'symbol' },
-                            { title: t('display'), field: 'display' },
-                            { title: t('description'), field: 'description' },
-
+                            { title: t('title'), field: 'title' },
+                            { title: t('image'), field: 'image', render: row => <img src={row.image} style={styles.img} /> },
+                            { title: t('video'), field: 'link' },
+                            { title: t('view'), field: 'view', editable: 'never' },
                         ]}
                         data={query =>
                             new Promise((resolve, reject) => {
                                 Fetch('manage/list', {
-                                    type: 'market',
+                                    type: 'video',
                                     page: (query.page + 1),
                                     perPage: query.pageSize
                                 }, (result) => {
@@ -51,7 +53,7 @@ class Screen extends React.Component {
                             onRowAdd: newData =>
                                 new Promise((resolve, reject) => {
                                     Fetch('manage/add', {
-                                        type: 'market',
+                                        type: 'video',
                                         data: JSON.stringify(newData)
                                     }, (result) => {
                                         resolve();
@@ -62,7 +64,7 @@ class Screen extends React.Component {
                                     let data = diff(newData, oldData);
                                     if (Object.keys(data).length > 0) {
                                         Fetch('manage/update', {
-                                            type: 'market',
+                                            type: 'video',
                                             id: oldData.id,
                                             data: JSON.stringify(data)
                                         }, (result) => {
@@ -76,7 +78,7 @@ class Screen extends React.Component {
                             onRowDelete: oldData =>
                                 new Promise(resolve => {
                                     Fetch('manage/delete', {
-                                        type: 'market',
+                                        type: 'video',
                                         id: oldData.id,
                                     }, (result) => {
                                         resolve();
@@ -94,5 +96,9 @@ const styles = {
     root: {
         width: '100%',
     },
+    img: {
+        height: 60,
+        borderRadius: 5
+    }
 }
 export default Screen;

@@ -10,32 +10,35 @@ import MaterialTable from 'material-table'
 import CheckIcon from '@material-ui/icons/Check';
 import BlockIcon from '@material-ui/icons/Block';
 import Switch from '@material-ui/core/Switch';
+import Context from 'library/Context';
 
 
 class Screen extends React.Component {
+    static contextType = Context;
     constructor(props) {
         super(props);
         this.state = {
         };
         autoBind(this);
     }
+    update() {
+        this.context.game.send({ refresh: true });
+    }
     render() {
         return (
             <Grid item xs={12}>
                 <Paper style={styles.root}>
                     <MaterialTable
-                        title={t('Markets')}
+                        title={t('Setting')}
                         columns={[
-                            { title: t('type'), field: 'type', lookup: { crypto: 'crypto', forex: 'forex', stocks: 'stocks' } },
-                            { title: t('symbol'), field: 'symbol' },
-                            { title: t('display'), field: 'display' },
-                            { title: t('description'), field: 'description' },
+                            { title: t('key'), field: 'key', editable: 'onAdd' },
+                            { title: t('value'), field: 'value' },
 
                         ]}
                         data={query =>
                             new Promise((resolve, reject) => {
                                 Fetch('manage/list', {
-                                    type: 'market',
+                                    type: 'setting',
                                     page: (query.page + 1),
                                     perPage: query.pageSize
                                 }, (result) => {
@@ -51,9 +54,10 @@ class Screen extends React.Component {
                             onRowAdd: newData =>
                                 new Promise((resolve, reject) => {
                                     Fetch('manage/add', {
-                                        type: 'market',
+                                        type: 'setting',
                                         data: JSON.stringify(newData)
                                     }, (result) => {
+                                        this.update();
                                         resolve();
                                     })
                                 }),
@@ -62,10 +66,11 @@ class Screen extends React.Component {
                                     let data = diff(newData, oldData);
                                     if (Object.keys(data).length > 0) {
                                         Fetch('manage/update', {
-                                            type: 'market',
+                                            type: 'setting',
                                             id: oldData.id,
                                             data: JSON.stringify(data)
                                         }, (result) => {
+                                            this.update();
                                             resolve();
                                         })
                                     }
@@ -73,15 +78,15 @@ class Screen extends React.Component {
                                         resolve();
                                     }
                                 }),
-                            onRowDelete: oldData =>
-                                new Promise(resolve => {
-                                    Fetch('manage/delete', {
-                                        type: 'market',
-                                        id: oldData.id,
-                                    }, (result) => {
-                                        resolve();
-                                    })
-                                }),
+                            // onRowDelete: oldData =>
+                            //     new Promise(resolve => {
+                            //         Fetch('manage/delete', {
+                            //             type: 'setting',
+                            //             id: oldData.id,
+                            //         }, (result) => {
+                            //             resolve();
+                            //         })
+                            //     }),
                         }}
                     />
                 </Paper>

@@ -24,18 +24,23 @@ class Screen extends React.Component {
             <Grid item xs={12}>
                 <Paper style={styles.root}>
                     <MaterialTable
-                        title={t('Markets')}
+                        title={t('Orders')}
                         columns={[
-                            { title: t('type'), field: 'type', lookup: { crypto: 'crypto', forex: 'forex', stocks: 'stocks' } },
-                            { title: t('symbol'), field: 'symbol' },
-                            { title: t('display'), field: 'display' },
-                            { title: t('description'), field: 'description' },
+                            { title: t('balance'), field: 'balanceType', lookup: { real: 'real', practice: 'practice' } },
+                            { title: t('type'), field: 'tradeType', lookup: { buy: 'buy', sell: 'sell' } },
+                            { title: t('price'), field: 'price' },
+                            { title: t('status'), field: 'status', lookup: { done: 'done', pending: 'pending' } },
+                            { title: t('bet'), field: 'bet', render: row => (toMoney(row.bet)) },
+                            { title: t('profit'), field: 'profit', render: row => (row.profit + '%') },
+                            { title: t('amount'), field: 'amount', render: row => (toMoney(row.amount)) },
+                            { title: t('trade in'), field: 'point', render: row => (timing(row.point, true)), editable: 'never' },
+                            { title: t('trade at'), field: 'tradeAt', render: row => (timing(row.tradeAt, true)), editable: 'never' },
 
                         ]}
                         data={query =>
                             new Promise((resolve, reject) => {
                                 Fetch('manage/list', {
-                                    type: 'market',
+                                    type: 'order',
                                     page: (query.page + 1),
                                     perPage: query.pageSize
                                 }, (result) => {
@@ -48,21 +53,12 @@ class Screen extends React.Component {
                             })
                         }
                         editable={{
-                            onRowAdd: newData =>
-                                new Promise((resolve, reject) => {
-                                    Fetch('manage/add', {
-                                        type: 'market',
-                                        data: JSON.stringify(newData)
-                                    }, (result) => {
-                                        resolve();
-                                    })
-                                }),
                             onRowUpdate: (newData, oldData) =>
                                 new Promise(resolve => {
                                     let data = diff(newData, oldData);
                                     if (Object.keys(data).length > 0) {
                                         Fetch('manage/update', {
-                                            type: 'market',
+                                            type: 'order',
                                             id: oldData.id,
                                             data: JSON.stringify(data)
                                         }, (result) => {
@@ -76,7 +72,7 @@ class Screen extends React.Component {
                             onRowDelete: oldData =>
                                 new Promise(resolve => {
                                     Fetch('manage/delete', {
-                                        type: 'market',
+                                        type: 'order',
                                         id: oldData.id,
                                     }, (result) => {
                                         resolve();

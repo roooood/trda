@@ -10,16 +10,18 @@ import MaterialTable from 'material-table'
 import CheckIcon from '@material-ui/icons/Check';
 import BlockIcon from '@material-ui/icons/Block';
 import Switch from '@material-ui/core/Switch';
-
+import Context from 'library/Context';
 
 class Screen extends React.Component {
+    static contextType = Context;
     constructor(props) {
         super(props);
         this.state = {
-            page: 0,
-            rowsPerPage: 5
         };
         autoBind(this);
+    }
+    update(user) {
+        this.context.game.send({ user });
     }
     render() {
         return (
@@ -81,8 +83,12 @@ class Screen extends React.Component {
                                             id: oldData.id,
                                             data: JSON.stringify(data)
                                         }, (result) => {
+                                            this.update(oldData.id)
                                             resolve();
                                         })
+                                    }
+                                    else {
+                                        resolve();
                                     }
                                 }),
                             onRowDelete: oldData =>

@@ -1,0 +1,49 @@
+.message-list-container {
+  padding: 10px;
+  padding-bottom: 69px;
+}
+.message-list-container:empty {
+  height:63vh;
+}
+.compose {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  background:rgb(234, 234, 234);
+  border-top: 1px solid#ceced0;
+  position: sticky;
+  width: 100%;
+  bottom: 0px;
+}
+
+@supports (backdrop-filter: blur(20px)) {
+  .compose {
+    border: none;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+  }
+}
+form{
+  width:100%;
+}
+.compose-input {
+  flex: 1;
+  border: none;
+  font-size: 14px;
+  height: 40px;
+  background: none;
+  width:100%;
+}
+
+.compose-input::placeholder {
+  opacity: 0.3;
+}
+
+.compose .toolbar-button {
+  color: #bbbbbf;
+  margin-left: 15px;
+}
+
+.compose .toolbar-button:hover {
+  color: #99999c;
+}

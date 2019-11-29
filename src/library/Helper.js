@@ -1,6 +1,6 @@
 
-export function timing(timestamp) {
-    var a = new Date(timestamp);
+export function timing(timestamp, unix = false) {
+    var a = new Date(unix ? timestamp * 1000 : timestamp);
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     var month = months[a.getMonth()];
     var date = a.getDate();

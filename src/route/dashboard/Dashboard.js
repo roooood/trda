@@ -68,7 +68,6 @@ class Dashboard extends React.Component {
                         />
                     </Paper>
                 </Grid>
-                );
             </Grid>
         );
     }

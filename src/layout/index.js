@@ -1,12 +1,12 @@
 import React from 'react';
 import autoBind from 'react-autobind';
+import { connect } from 'react-redux';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from "@material-ui/styles";
 import { createMuiTheme } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-
 
 import Context from 'library/Context';
 import Themes from "./themes";
@@ -29,15 +29,20 @@ class index extends React.Component {
                 <Router>
                     <div style={styles.root}>
                         <CssBaseline />
-                        <Appbar />
-                        <Sidebar />
-                        <main style={styles.content}>
-                            <div style={styles.appBarSpacer} />
-                            <Container maxWidth="lg" style={styles.container}>
-                                <Routes />
-                            </Container>
-                            <Footer />
-                        </main>
+                        {this.props.user.isLogin
+                            ? <>
+                                <Appbar />
+                                <Sidebar />
+                                <main style={styles.content}>
+                                    <div style={styles.appBarSpacer} />
+                                    <Container maxWidth="lg" style={styles.container}>
+                                        <Routes />
+                                    </Container>
+                                    <Footer />
+                                </main>
+                            </>
+                            : <Routes />
+                        }
                     </div>
                 </Router>
             </ThemeProvider>
@@ -64,4 +69,4 @@ const styles = {
         paddingBottom: theme.spacing(4),
     },
 };
-export default index;
+export default connect(state => state)(index);

@@ -11,6 +11,10 @@ import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import MenuOpenSharpIcon from '@material-ui/icons/MenuOpenSharp';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+
+import { connect } from 'react-redux';
+import { User } from 'redux/action/user';
 
 class Appbar extends React.Component {
     static contextType = Context;
@@ -21,6 +25,9 @@ class Appbar extends React.Component {
     }
     handleDrawerOpen() {
         this.context.setState({ menuState: !this.context.state.menuState });
+    }
+    logOut() {
+        this.props.dispatch(User(null));
     }
     render() {
         return (
@@ -38,10 +45,11 @@ class Appbar extends React.Component {
                     <Typography component="h1" variant="h6" color="inherit" noWrap style={styles.title}>
                         Dashboard
                     </Typography>
-                    <IconButton color="inherit">
-                        <Badge badgeContent={4} color="secondary">
+                    <IconButton color="inherit" onClick={this.logOut}>
+                        {/* <Badge badgeContent={4} color="secondary">
                             <NotificationsIcon />
-                        </Badge>
+                        </Badge> */}
+                        <ExitToAppIcon />
                     </IconButton>
                 </Toolbar>
             </AppBar>
@@ -75,4 +83,4 @@ const styles = {
 
     appBarSpacer: theme.mixins.toolbar,
 }
-export default Appbar;
+export default connect(state => state)(Appbar);

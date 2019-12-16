@@ -22,7 +22,12 @@ import TrendingUpRoundedIcon from '@material-ui/icons/TrendingUpRounded';
 import ListRoundedIcon from '@material-ui/icons/ListRounded';
 import ChatIcon from '@material-ui/icons/ChatBubbleOutline';
 import VideocamIcon from '@material-ui/icons/OndemandVideo';
-
+import PaymentIcon from '@material-ui/icons/Payment';
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
+import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
+import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 
 
 const ListItems = [
@@ -39,6 +44,27 @@ const ListItems = [
         text: t('usersManage'),
         icon: SettingsIcon,
         link: '/user/manage'
+      }
+    ]
+  },
+  {
+    text: t('Payment'),
+    icon: PaymentIcon,
+    sub: [
+      {
+        text: t('methods'),
+        icon: AccountBalanceIcon,
+        link: '/payment/method'
+      },
+      {
+        text: t('deposit'),
+        icon: VerticalAlignTopIcon,
+        link: '/payment/deposit'
+      },
+      {
+        text: t('withdraw'),
+        icon: VerticalAlignBottomIcon,
+        link: '/payment/withdraw'
       }
     ]
   },
@@ -87,14 +113,25 @@ const ListItems = [
     ]
   },
   {
-    text: t('Setting'),
-    icon: SettingsIcon,
-    link: '/setting'
-  },
-  {
     text: t('Messages'),
     icon: ChatIcon,
     link: '/support'
+  },
+  {
+    text: t('Setting'),
+    icon: SettingsIcon,
+    sub: [
+      {
+        text: t('setting'),
+        icon: SettingsEthernetIcon,
+        link: '/setting/env'
+      },
+      {
+        text: t('admin'),
+        icon: SupervisorAccountIcon,
+        link: '/setting/admin'
+      }
+    ]
   }
 ]
 
@@ -121,7 +158,7 @@ class Sidebar extends React.Component {
             {('link' in item)
               ? <>
                 <Link to={item.link} key={i}>
-                  <ListItem button onClick={() => this.handleClick(i)}>
+                  <ListItem button onClick={() => this.handleClick(i)} style={styles.subItem}>
                     <ListItemIcon>
                       {(this.context.state.menuState && this.state.open[i]) ? <ExpandMore /> : <item.icon />}
                     </ListItemIcon>
@@ -129,7 +166,7 @@ class Sidebar extends React.Component {
                   </ListItem>
                 </Link>
               </>
-              : <ListItem button onClick={() => this.handleClick(i)} >
+              : <ListItem button onClick={() => this.handleClick(i)} style={styles.subItem} >
                 <ListItemIcon>
                   {(this.context.state.menuState && this.state.open[i]) ? <ExpandMore /> : <item.icon />}
                 </ListItemIcon>
@@ -146,9 +183,9 @@ class Sidebar extends React.Component {
                       <Link to={subItem.link} key={i + '' + j}>
                         <ListItem style={styles.subItem} button>
                           <ListItemIcon>
-                            <subItem.icon />
+                            <subItem.icon style={styles.icon} />
                           </ListItemIcon>
-                          <ListItemText primary={subItem.text} />
+                          <ListItemText primary={subItem.text} style={styles.subItem} />
                         </ListItem>
                       </Link>
                     )
@@ -215,8 +252,12 @@ const styles = {
   },
   subItem: {
     borderRadius: 5,
-    color: 'rgba(0, 0, 0, 0.54)',
-    testDecoration: 'none'
+    color: 'rgba(0, 0, 0, 0.8)',
+    testDecoration: 'none',
+    fontSize: '.75rem',
+  },
+  icon: {
+    fontSize: 15
   }
 }
 

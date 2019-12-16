@@ -10,9 +10,11 @@ import MaterialTable from 'material-table'
 import CheckIcon from '@material-ui/icons/Check';
 import BlockIcon from '@material-ui/icons/Block';
 import Switch from '@material-ui/core/Switch';
+import Context from 'library/Context';
 
 
 class Screen extends React.Component {
+    static contextType = Context;
     constructor(props) {
         super(props);
         this.state = {
@@ -24,24 +26,17 @@ class Screen extends React.Component {
             <Grid item xs={12}>
                 <Paper style={styles.root}>
                     <MaterialTable
-                        title={t('Orders')}
+                        title={t('Admin')}
                         columns={[
-                            { title: t('balance'), field: 'balanceType', lookup: { real: 'real', practice: 'practice' } },
-                            { title: t('type'), field: 'tradeType', lookup: { buy: 'buy', sell: 'sell' } },
-                            { title: t('price'), field: 'price' },
-                            { title: t('status'), field: 'status', lookup: { done: 'done', pending: 'pending' } },
-                            { title: t('bet'), field: 'bet', render: row => (toMoney(row.bet)) },
-                            { title: t('profit'), field: 'profit', render: row => (row.profit + '%') },
-                            { title: t('amount'), field: 'amount', render: row => (toMoney(row.amount)) },
-                            { title: t('trade in'), field: 'point', render: row => (timing(row.point, true)), editable: 'never' },
-                            { title: t('trade at'), field: 'tradeAt', render: row => (timing(row.tradeAt, true)), editable: 'never' },
-                            { title: t('user'), field: 'user_id', render: row => row.user.username, editable: 'never' },
+                            { title: t('name'), field: 'name' },
+                            { title: t('username'), field: 'username' },
+                            { title: t('password'), field: 'password' },
 
                         ]}
                         data={query =>
                             new Promise((resolve, reject) => {
                                 Fetch('manage/list', {
-                                    type: 'order',
+                                    type: 'admin',
                                     page: (query.page + 1),
                                     perPage: query.pageSize
                                 }, (result) => {
@@ -54,12 +49,22 @@ class Screen extends React.Component {
                             })
                         }
                         editable={{
+                            onRowAdd: newData =>
+                                new Promise((resolve, reject) => {
+                                    Fetch('manage/add', {
+                                        type: 'admin',
+                                        data: JSON.stringify(newData)
+                                    }, (result) => {
+                                        this.update();
+                                        resolve();
+                                    })
+                                }),
                             onRowUpdate: (newData, oldData) =>
                                 new Promise(resolve => {
                                     let data = diff(newData, oldData);
                                     if (Object.keys(data).length > 0) {
                                         Fetch('manage/update', {
-                                            type: 'order',
+                                            type: 'admin',
                                             id: oldData.id,
                                             data: JSON.stringify(data)
                                         }, (result) => {
@@ -73,7 +78,7 @@ class Screen extends React.Component {
                             onRowDelete: oldData =>
                                 new Promise(resolve => {
                                     Fetch('manage/delete', {
-                                        type: 'order',
+                                        type: 'admin',
                                         id: oldData.id,
                                     }, (result) => {
                                         resolve();

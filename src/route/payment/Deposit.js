@@ -26,15 +26,14 @@ class Screen extends React.Component {
                     <MaterialTable
                         title={t('Deposit')}
                         columns={[
-                            { title: t('type'), field: 'type', lookup: { bitcoin: 'bitcoin', ethereum: 'ethereum', bitcoincash: 'bitcoincash', litecoin: 'litecoin', other: 'other' } },
+                            { title: t('type'), field: 'payment_id', render: row => row.payment.title },
                             { title: t('amount'), field: 'amount' },
                             { title: t('price'), field: 'price', render: row => (toMoney(row.price)) },
                             { title: t('status'), field: 'status', lookup: { pending: 'pending', cenceled: 'cenceled', done: 'done' } },
-                            { title: t('payCode'), field: 'payCode' },
-                            { title: t('payId'), field: 'payId' },
-                            { title: t('time'), field: 'time', render: row => (timing(row.time)) },
                             { title: t('user'), field: 'user_id', render: row => row.user.username },
-                            { title: t('description'), field: 'extra' },
+                            { title: t('meta'), field: 'meta' },
+                            { title: t('description'), field: 'description' },
+                            { title: t('time'), field: 'time', render: row => (timing(row.time)) },
                         ]}
                         data={query =>
                             new Promise((resolve, reject) => {
